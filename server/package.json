@@ -1,0 +1,16 @@
+{
+  "name": "youtube-clone-server",
+  "version": "1.0.0",
+  "description": "Backend for YouTube Clone",
+  "main": "server.js",
+  "scripts": {
+   "start": "node \"nano server-fixed.js\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.0",
+    "yt-dlp-wrap": "^2.3.12"
+  }
+}
