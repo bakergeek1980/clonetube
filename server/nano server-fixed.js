@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs-extra');
 const YtDlpWrap = require('yt-dlp-wrap').default;
-const fetch = require('node-fetch'); // <-- Corrigé : importé une seule fois en haut
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +12,22 @@ const port = process.env.PORT || 3001;
 // Initialisation de yt-dlp
 const ytDlpWrap = new YtDlpWrap();
 
-app.use(cors());
+// Configuration CORS sécurisée
+app.use(cors({
+  origin: [
+    'https://clonetube-kappa.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200
+}));
+
+// Gestion explicite des requêtes OPTIONS (preflight)
+app.options('*', cors());
+
 app.use(express.json());
 
 const downloadsDir = path.join(__dirname, 'downloads');
@@ -89,7 +104,6 @@ app.delete('/api/downloads/:filename', async (req, res) => {
     }
 });
 
-
 // Endpoint pour servir/lire une vidéo
 app.get('/api/video/:filename', (req, res) => {
     const { filename } = req.params;
@@ -127,7 +141,6 @@ app.get('/api/youtube/search', async (req, res) => {
         res.status(500).json({ error: `Erreur lors de la recherche sur YouTube: ${error.message}` });
     }
 });
-
 
 // Endpoint de santé
 app.get('/api/health', (req, res) => {
