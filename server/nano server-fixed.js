@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs-extra');
 const YtDlpWrap = require('yt-dlp-wrap').default;
+const fetch = require('node-fetch'); // <-- Corrigé : importé une seule fois en haut
 require('dotenv').config();
 
 const app = express();
@@ -28,7 +29,6 @@ app.post('/api/download', (req, res) => {
 
   console.log(`[INFO] Demande de téléchargement reçue pour : ${url}`);
   
-  // Exécute le téléchargement en arrière-plan sans attendre la fin
   ytDlpWrap.exec([
     url,
     '-f', format || 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
@@ -116,8 +116,6 @@ app.get('/api/youtube/search', async (req, res) => {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&maxResults=${maxResults}&type=video&key=${apiKey}`;
 
     try {
-        const fetchModule = await import('node-fetch');
-        const fetch = fetchModule.default;
         const response = await fetch(url);
         const data = await response.json();
         if (data.error) {
