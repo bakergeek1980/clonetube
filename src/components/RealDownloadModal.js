@@ -8,7 +8,7 @@ const RealDownloadModal = ({ videoId, videoTitle, onClose, isOpen }) => {
     console.log('🟡 Début handleDownload pour:', videoId);
     
     try {
-      const response = await fetch('http://localhost:3001/api/download', {
+     const response = await fetch('https://tubeclone-server.onrender.com/api/download', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

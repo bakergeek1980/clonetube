@@ -8,6 +8,9 @@ import HistorySidebar from './components/HistorySidebar';
 import { useVideoHistory } from './hooks/useVideoHistory';
 import './styles/App.css';
 
+// URL de base de l'API
+const API_BASE_URL = 'https://tubeclone-server.onrender.com';
+
 function App() {
   const [currentVideo, setCurrentVideo] = useState(null);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
@@ -21,7 +24,7 @@ function App() {
 
   const fetchDownloadedVideos = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/downloads');
+      const response = await fetch(`${API_BASE_URL}/api/downloads`);
       if (response.ok) {
         const videos = await response.json();
         setDownloadedVideos(videos);
