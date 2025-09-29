@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
 
-# Arrête le script en cas d'erreur
+# On indique au script de s'arrêter en cas d'erreur
 set -o errexit
 
-echo "---> Mise à jour des paquets système avec sudo"
-apt-get update -y
-
-echo "---> Installation de python, pip, et ffmpeg avec sudo"
+echo "---> Installation des dépendances système (python, pip, ffmpeg)"
+apt-get update
 apt-get install -y python3 python3-pip ffmpeg
 
-echo "---> Installation de yt-dlp via pip"
-pip3 install --upgrade yt-dlp
-
-echo "---> Déplacement dans le dossier du serveur"
-cd server
+echo "---> Installation de yt-dlp"
+pip3 install yt-dlp
 
 echo "---> Installation des dépendances Node.js"
+# On se déplace dans le dossier du serveur pour lancer npm install
+cd server
 npm install
